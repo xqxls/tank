@@ -32,6 +32,6 @@ bs4
 
 ## 参考资料
 
-- [python 爬取猫眼电影top100数据](https://www.cnblogs.com/yocichen/p/11812637.html)
+- https://blog.csdn.net/qq_43751489/article/details/109398685
 
 By xqxls 2021/3/22
