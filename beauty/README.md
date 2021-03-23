@@ -22,16 +22,28 @@
 2. 部分网站爬取会存在中文乱码问题，甚至图片资源打不开，需要先译码，再编码为utf-8
 3. 一般网站的分页，其url只是某个数字不同，所以可以利用循环获取所有页的url
 
+## 多线程版本
+
+将每一页的url放入线程列表，每一个url对应一个爬取任务，根据自定义的线程类，开启线程，并将每一个线程join到主线程，防止主线程结束，爬取任务还没完成。
+
+## 任务队列版本
+
+多线程版本的缺点是，如果爬取的页数很多，就会开启对应多的线程数，爬取一定时间后，上下文切换时间会堆积的特别长，所以我们可以考虑将要处理的url加入到任务队列，并且创建合适数量的线程来处理这些任务，我的电脑是4核cpu，所以设置了8个线程
 
 ## 导入模块
 
 ```
 requests
 bs4
+time
+threading
+queue
 ```
 
 ## 参考资料
 
 - https://blog.csdn.net/qq_43751489/article/details/109398685
+- https://www.jianshu.com/p/acd466426413
+- https://blog.csdn.net/mahuatengmmp/article/details/106060137?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242
 
 By xqxls 2021/3/22

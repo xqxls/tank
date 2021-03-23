@@ -1,5 +1,16 @@
-import requests ,time
+import requests,time,threading
 from bs4 import BeautifulSoup
+
+
+#自定义线程类
+class MyThread(threading.Thread):
+    def __init__(self, func, args):
+        threading.Thread.__init__(self)
+        self.args = args
+        self.func = func
+
+    def run(self):
+        self.func(*self.args)
 
 
 #定位到美女图片的下载地址以及图片名字
@@ -31,30 +42,31 @@ def imagespider(url):
 def download(url1, name ):
     global count
     count = count + 1
-    r = requests.get(url1, timeout=100)
+    r = requests.get(url1,timeout=100)
     data = r.content
     with open("F:/crawling/girl/" + str(count) + '.' + str(name) + '.jpg', 'wb') as f:
         f.write(data)
     print('已打印第{}张图片'.format(count))
 
 
-# for i in range(1,10):
-#     url='https://'+'tu.cnzol.com/meinv/index_'+str(i)+'.html'
-#     imagespider(url)
-
-
-# for i in range(1,10):
-#     url='https://'+'www.ivsky.com/tupian/meinv_t50/index_'+str(i)+'.html'
-#     imagespider(url)
-
+#主函数
 if __name__ == '__main__':
     t_start = time.time()
     #获取用户代理，模仿浏览器访问
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36'}
     count = 0
+    urlList = []
     for i in range(1, 9):
         url = 'https://' + 'pic.netbian.com/4kmeinv/index_' + str(i) + '.html'
-        imagespider(url)
+        urlList.append(url)
+
+    # 多线程
+    threadList = [MyThread(imagespider, (url,)) for url in urlList]
+    for t in threadList:
+        t.setDaemon(True)
+        t.start()
+    for i in threadList:
+        i.join()
     t_end = time.time()
-    print('the normal way take %s s' % (t_end - t_start))
+    print('the thread way take %s s' % (t_end - t_start))
