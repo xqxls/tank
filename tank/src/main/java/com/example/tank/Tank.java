@@ -19,19 +19,19 @@ public class Tank {
     public static int WIDTH = ResourceMgr.goodTankU.getWidth();
     public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
 
-    TankFrame frame = null;
     Random random = new Random();
     Rectangle rect = new Rectangle();
+    GameModel gm=null;
 
     public Tank() {
     }
 
-    public Tank(int x, int y, Dir dir, Group group, TankFrame frame) {
+    public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.frame = frame;
+        this.gm = gm;
 
         rect.x = this.x;
         rect.y = this.y;
@@ -41,7 +41,7 @@ public class Tank {
 
     public void paint(Graphics g) {
         if (!living) {
-            frame.tanks.remove(this);
+            gm.tanks.remove(this);
             return;
         }
 
@@ -166,7 +166,7 @@ public class Tank {
 //        if (dir.equals(Dir.LEFT) || dir.equals(Dir.RIGHT)) {
 //            bY += 3 * Bullet.HEIGHT / 8;
 //        }
-        frame.bullets.add(new Bullet(bX, bY, this.dir, this.group, this.frame));
+        gm.bullets.add(new Bullet(bX, bY, this.dir, this.group, this.gm));
 
 
     }
@@ -175,7 +175,7 @@ public class Tank {
         this.living = false;
         int eX = this.x + Tank.WIDTH / 2 - Explode.WIDTH / 2;
         int eY = this.y + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
-        frame.explodes.add(new Explode(eX, eY, frame));
+        gm.explodes.add(new Explode(eX, eY, gm));
     }
 
     public boolean isLiving() {

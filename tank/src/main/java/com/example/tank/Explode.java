@@ -14,18 +14,18 @@ public class Explode {
     public static int WIDTH = ResourceMgr.explodes[0].getWidth();
     public static int HEIGHT = ResourceMgr.explodes[0].getHeight();
 
-    TankFrame frame;
+    GameModel gm;
 
-    public Explode(int x, int y,TankFrame frame) {
+    public Explode(int x, int y,GameModel gm) {
         this.x = x;
         this.y = y;
-        this.frame=frame;
+        this.gm=gm;
     }
 
     public void paint(Graphics g){
         g.drawImage(ResourceMgr.explodes[step++],x,y,null);
         if(step>=ResourceMgr.explodes.length){
-            frame.explodes.remove(this);
+            gm.explodes.remove(this);
         }
     }
 

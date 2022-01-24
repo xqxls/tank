@@ -18,15 +18,15 @@ public class Bullet {
     public static int WIDTH = ResourceMgr.BulletD.getWidth();
     public static int HEIGHT = ResourceMgr.BulletD.getHeight();
 
-    TankFrame frame;
+    GameModel gm;
     Rectangle rect = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,Group group,TankFrame frame) {
+    public Bullet(int x, int y, Dir dir,Group group,GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group=group;
-        this.frame=frame;
+        this.gm=gm;
 
         rect.x = this.x;
         rect.y = this.y;
@@ -36,7 +36,7 @@ public class Bullet {
 
     public void paint(Graphics g){
         if(!living){
-            frame.bullets.remove(this);
+            gm.bullets.remove(this);
         }
         switch (dir) {
             case LEFT:
