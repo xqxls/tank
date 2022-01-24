@@ -7,7 +7,7 @@ import java.awt.*;
  * @Author: huzhuo
  * @Date: Created in 2022/1/6 16:09
  */
-public class Bullet {
+public class Bullet extends GameObject{
     private int x, y;
     private Dir dir;
     private static final int SPEED = 10;
@@ -36,7 +36,7 @@ public class Bullet {
 
     public void paint(Graphics g){
         if(!living){
-            gm.bullets.remove(this);
+            gm.remove(this);
         }
         switch (dir) {
             case LEFT:

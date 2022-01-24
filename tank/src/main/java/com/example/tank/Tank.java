@@ -8,7 +8,7 @@ import java.util.Random;
  * @Author: huzhuo
  * @Date: Created in 2022/1/4 20:39
  */
-public class Tank {
+public class Tank extends GameObject{
     private int x, y;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 5;
@@ -26,6 +26,10 @@ public class Tank {
     public Tank() {
     }
 
+    public Rectangle getRect() {
+        return rect;
+    }
+
     public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
         this.x = x;
         this.y = y;
@@ -41,7 +45,7 @@ public class Tank {
 
     public void paint(Graphics g) {
         if (!living) {
-            gm.tanks.remove(this);
+            gm.remove(this);
             return;
         }
 
@@ -166,7 +170,7 @@ public class Tank {
 //        if (dir.equals(Dir.LEFT) || dir.equals(Dir.RIGHT)) {
 //            bY += 3 * Bullet.HEIGHT / 8;
 //        }
-        gm.bullets.add(new Bullet(bX, bY, this.dir, this.group, this.gm));
+        gm.add(new Bullet(bX, bY, this.dir, this.group, this.gm));
 
 
     }
@@ -175,11 +179,31 @@ public class Tank {
         this.living = false;
         int eX = this.x + Tank.WIDTH / 2 - Explode.WIDTH / 2;
         int eY = this.y + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
-        gm.explodes.add(new Explode(eX, eY, gm));
+        gm.add(new Explode(eX, eY, gm));
     }
 
     public boolean isLiving() {
         return living;
     }
 
+    public void reverseDir() {
+        Dir dir=this.getDir();
+
+        switch (dir) {
+            case LEFT:
+                setDir(Dir.RIGHT);
+                break;
+            case RIGHT:
+                setDir(Dir.LEFT);
+                break;
+            case UP:
+                setDir(Dir.DOWN);
+                break;
+            case DOWN:
+                setDir(Dir.UP);
+                break;
+            default:
+                break;
+        }
+    }
 }
