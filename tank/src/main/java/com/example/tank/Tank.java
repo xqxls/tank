@@ -10,6 +10,7 @@ import java.util.Random;
  */
 public class Tank extends GameObject{
     private int x, y;
+    private int oldX,oldY;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 5;
     private boolean moving = true;
@@ -21,7 +22,6 @@ public class Tank extends GameObject{
 
     Random random = new Random();
     Rectangle rect = new Rectangle();
-    GameModel gm=null;
 
     public Tank() {
     }
@@ -30,22 +30,23 @@ public class Tank extends GameObject{
         return rect;
     }
 
-    public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
+    public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.gm = gm;
 
         rect.x = this.x;
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+
+        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics g) {
         if (!living) {
-            gm.remove(this);
+            GameModel.getInstance().remove(this);
             return;
         }
 
@@ -72,6 +73,9 @@ public class Tank extends GameObject{
         if (!living) return;
 
         if (!moving) return;
+
+        oldX=x;
+        oldY=y;
 
         switch (dir) {
             case LEFT:
@@ -170,40 +174,27 @@ public class Tank extends GameObject{
 //        if (dir.equals(Dir.LEFT) || dir.equals(Dir.RIGHT)) {
 //            bY += 3 * Bullet.HEIGHT / 8;
 //        }
-        gm.add(new Bullet(bX, bY, this.dir, this.group, this.gm));
+        GameModel.getInstance().add(new Bullet(bX, bY, this.dir, this.group));
 
-
+        if(this.group == Group.GOOD){
+            new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
+        }
     }
 
     public void die() {
         this.living = false;
         int eX = this.x + Tank.WIDTH / 2 - Explode.WIDTH / 2;
         int eY = this.y + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
-        gm.add(new Explode(eX, eY, gm));
+        GameModel.getInstance().add(new Explode(eX, eY));
     }
 
     public boolean isLiving() {
         return living;
     }
 
-    public void reverseDir() {
-        Dir dir=this.getDir();
 
-        switch (dir) {
-            case LEFT:
-                setDir(Dir.RIGHT);
-                break;
-            case RIGHT:
-                setDir(Dir.LEFT);
-                break;
-            case UP:
-                setDir(Dir.DOWN);
-                break;
-            case DOWN:
-                setDir(Dir.UP);
-                break;
-            default:
-                break;
-        }
+    public void backPoint() {
+        x=oldX;
+        y=oldY;
     }
 }

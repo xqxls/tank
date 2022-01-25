@@ -10,7 +10,7 @@ import java.awt.*;
 public class Bullet extends GameObject{
     private int x, y;
     private Dir dir;
-    private static final int SPEED = 10;
+    private static final int SPEED = 20;
     private boolean moving = true;
     private boolean living = true;
     private Group group = Group.BAD;
@@ -18,15 +18,13 @@ public class Bullet extends GameObject{
     public static int WIDTH = ResourceMgr.BulletD.getWidth();
     public static int HEIGHT = ResourceMgr.BulletD.getHeight();
 
-    GameModel gm;
     Rectangle rect = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,Group group,GameModel gm) {
+    public Bullet(int x, int y, Dir dir,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group=group;
-        this.gm=gm;
 
         rect.x = this.x;
         rect.y = this.y;
@@ -36,7 +34,7 @@ public class Bullet extends GameObject{
 
     public void paint(Graphics g){
         if(!living){
-            gm.remove(this);
+            GameModel.getInstance().remove(this);
         }
         switch (dir) {
             case LEFT:
@@ -82,17 +80,8 @@ public class Bullet extends GameObject{
 
     }
 
-    public void collideWith(Tank tank) {
-        if(this.group==tank.getGroup()) return;
 
-        //用一个rect记录位置
-        if(this.living&&tank.isLiving()&&this.rect.intersects(tank.rect)){
-            this.die();
-            tank.die();
-        }
-    }
-
-    private void die(){
+    public void die(){
         this.living=false;
     }
 
@@ -102,5 +91,9 @@ public class Bullet extends GameObject{
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public Rectangle getRect() {
+        return rect;
     }
 }

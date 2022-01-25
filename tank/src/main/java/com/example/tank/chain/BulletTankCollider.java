@@ -16,7 +16,12 @@ public class BulletTankCollider implements Collider{
         if(o1 instanceof Bullet && o2 instanceof Tank){
             Bullet b=(Bullet)o1;
             Tank t=(Tank) o2;
-            b.collideWith(t);
+            if(b.getGroup()==t.getGroup()) return false;
+            //用一个rect记录位置
+            if(b.getRect().intersects(t.getRect())){
+                b.die();
+                t.die();
+            }
             return true;
         }
         else if(o1 instanceof Tank && o2 instanceof Bullet){
