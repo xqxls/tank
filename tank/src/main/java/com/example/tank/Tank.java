@@ -1,5 +1,8 @@
 package com.example.tank;
 
+import com.example.tank.decorator.RectDecorator;
+import com.example.tank.decorator.TailDecorator;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -9,7 +12,6 @@ import java.util.Random;
  * @Date: Created in 2022/1/4 20:39
  */
 public class Tank extends GameObject{
-    private int x, y;
     private int oldX,oldY;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 5;
@@ -171,9 +173,8 @@ public class Tank extends GameObject{
     public void fire() {
         int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-//        if (dir.equals(Dir.LEFT) || dir.equals(Dir.RIGHT)) {
-//            bY += 3 * Bullet.HEIGHT / 8;
-//        }
+
+//        GameModel.getInstance().add(new RectDecorator(new TailDecorator(new Bullet(bX, bY, this.dir, this.group))));
         GameModel.getInstance().add(new Bullet(bX, bY, this.dir, this.group));
 
         if(this.group == Group.GOOD){
@@ -196,5 +197,15 @@ public class Tank extends GameObject{
     public void backPoint() {
         x=oldX;
         y=oldY;
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 }

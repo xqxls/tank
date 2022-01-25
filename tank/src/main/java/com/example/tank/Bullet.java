@@ -8,7 +8,7 @@ import java.awt.*;
  * @Date: Created in 2022/1/6 16:09
  */
 public class Bullet extends GameObject{
-    private int x, y;
+
     private Dir dir;
     private static final int SPEED = 20;
     private boolean moving = true;
@@ -95,5 +95,15 @@ public class Bullet extends GameObject{
 
     public Rectangle getRect() {
         return rect;
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 }

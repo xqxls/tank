@@ -8,7 +8,6 @@ import java.awt.*;
  * @Date: Created in 2022/1/11 21:32
  */
 public class Explode extends GameObject{
-    private int x, y;
     private  int step=0;
 
     public static int WIDTH = ResourceMgr.explodes[0].getWidth();
@@ -26,6 +25,16 @@ public class Explode extends GameObject{
         if(step>=ResourceMgr.explodes.length){
             GameModel.getInstance().remove(this);
         }
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 
 }

@@ -35,4 +35,14 @@ public class Wall extends GameObject{
     public Rectangle getRect() {
         return rect;
     }
+
+    @Override
+    public int getWidth() {
+        return w;
+    }
+
+    @Override
+    public int getHeight() {
+        return h;
+    }
 }
